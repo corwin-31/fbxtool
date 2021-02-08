@@ -8,7 +8,7 @@ It was developed with Python 3 with Delta S box, and tested under Linux (Debian 
 Install
 -------
 
-If you have the fbxapitool, just download tools you want. Don't forget to configure parameters to use your freebox, the default may not work... Moreover, you'll to grant rights to the "fbxapitool" using Freebox OS web app.
+If you have the fbxapitool, just download tools you want. Don't forget to configure parameters to use your freebox, the default may not work... Moreover, you'll have to grant access to the "fbxapitool" using Freebox OS web app.
 
 Available tools
 ---------------

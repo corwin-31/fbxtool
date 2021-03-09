@@ -1,5 +1,5 @@
-fbxtools
-========
+fbxtool
+=======
 
 Here you'll find some tools built to manage Freebox. They are using fbxapitool package, available here: https://github.com/corwin-31/fbxapitool.git
 

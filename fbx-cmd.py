@@ -302,6 +302,7 @@ def fbx_read_netshare_samba():
     global fbx
     fbx_data = fbx.netshare.get_samba_configuration()
     print('#SAMBA/CiFS netshare')
+    printList(fbx_data)
 
 def fbx_read_netshare():
     global fbx
@@ -4122,8 +4123,8 @@ def fbx_add():
 
 #__main__
 # Set here your freebox API parms
-fbx_dns = 'mafreebox.freebox.fr'
-fbx_port = 443
+fbx_dns = 'corwin31.freeboxos.fr'
+fbx_port = 32769
 # Basic checks of command line
 cmdline = sys.argv
 prg = sys.argv[0]

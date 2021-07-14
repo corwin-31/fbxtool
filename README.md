@@ -3,7 +3,7 @@ fbxtool
 
 Here you'll find some tools built to manage Freebox. They are using fbxapitool package, available here: https://github.com/corwin-31/fbxapitool.git
 
-It was developed with Python 3 with Delta S box, and tested under Linux (Debian & Ubuntu). I think it can be used under macOS, not yet tested on my side. I've no idea of the effort required to used it on Windows 10, and I'll not do it. Last but not least, it'll only work with last version of the API in end of 2020, which mean version 8.
+It was developed in Python 3 with Delta S box, and tested under Linux (Debian & Ubuntu) and macOS. I've no idea of the effort required to used it on Windows 10, and I'll not do it. Last but not least, it'll only work with last version of the API in end of 2020, which mean version 8.
 
 Install
 -------

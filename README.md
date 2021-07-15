@@ -16,7 +16,7 @@ fbx-cmd.py:	a command line tool to manage your Freebox
 
 fbx-dump.py:	dumps Freebox config using fbx-cmd.py calls to restore
 
-fbx-menu.py:	few tools uner simple text interface with menus
+fbx-menu.py:	few tools under simple text interface with menus
 
 Resources
 ---------

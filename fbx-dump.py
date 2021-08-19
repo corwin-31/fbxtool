@@ -64,7 +64,7 @@ def dumpConf_List(mode='change', topic='', keys=[], conf={}, finish=True):
 #__main__
 fbx = Freebox()
 # Set here your Freebox parms
-fbx.open('mafreebox.freebox.fr',443)
+fbx.open('mafreebox.free.fr',443)
 print('#Begin')
 
 print('#LCD')
@@ -149,7 +149,7 @@ dumpConf('change', 'netshare afp', parmKeys, fbx_config)
 fbx_config = fbx.netshare.get_samba_configuration()
 parmKeys = [ 'file_share_enabled', 'logon_enabled', 'logon_user', 'logon_password', 'print_share_enabled', 'workgroup' ]
 fbx_config['logon_password'] = '1Pwd_here'
-dumpConf('change', 'netshare afp', parmKeys, fbx_config)
+dumpConf('change', 'netshare samba', parmKeys, fbx_config)
 
 print('#UPnP AV')
 fbx_config = fbx.upnpav.get_configuration()

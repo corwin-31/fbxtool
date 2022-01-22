@@ -177,6 +177,11 @@ for srv in vpn_srv:
         dumpConf('change', f"vpn.server config.spec {srv['name']}", parmKeys, fbx_config['conf_pptp'])
         parmKeys = [ 'pap', 'chap', 'mschapv2' ]
         dumpConf('change', f"vpn.server config.auth {srv['name']}", parmKeys, fbx_config['conf_pptp']['allowed_auth'])
+    elif srv['type'] == 'wireguard':
+        parmKeys = [ 'enabled', 'port' ]
+        dumpConf('change', f"vpn.server config.global {srv['name']}", parmKeys, fbx_config)
+        parmKeys = [ 'mtu' ]
+        dumpConf('change', f"vpn.server config.spec {srv['name']}", parmKeys, fbx_config['conf_wireguard'])
     else:
         parmKeys = [ 'enabled', 'enable_ipv4', 'enable_ipv6', 'port']
         dumpConf('change', f"vpn.server config.global {srv['name']}", parmKeys, fbx_config)

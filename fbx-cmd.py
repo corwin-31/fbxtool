@@ -2900,6 +2900,7 @@ def fbx_change_vpnsrv_spec():
             if vpnconf['type'] == 'pptp': parms = fbx.vpn.vpnserver_pptp_write_parms
             elif vpnconf['type'] == 'ipsec': parms = fbx.vpn.vpnserver_ipsec_write_parms
             elif vpnconf['type'] == 'openvpn': parms = fbx.vpn.vpnserver_open_write_parms
+            elif vpnconf['type'] == 'wireguard': parms = fbx.vpn.vpnserver_wireguard_write_parms
             else: parms = None
         if parms == None:
             print('Freebox command line tool: {0} change vpn.server config.spec <command args...>'.format(prg))

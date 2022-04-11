@@ -36,12 +36,13 @@ def doIt(cFunc, *args):
     except: return { 'Operation': 'failed' }
     else: return data
 
-def myMain(qcmObj, fbx, vmSelect, wifiSelect, wifiIds, freeplug, downSelect, downIds):
-    mainMenu = [ 'VM', 'Wifi', 'CPL', 'Downloads' ]
+def myMain(qcmObj, fbx, vmSelect, vmSelIds, wifiSelect, wifiIds, freeplug, downSelect, downIds, partSelect, partSelIds, partSelTypes):
+    mainMenu = [ 'VM', 'Wifi', 'CPL', 'Downloads', 'Storage' ]
     cplMenu = [ 'Show', 'Reset' ]
     wifiMenu = [ 'Config', 'Scan', 'Radar' ]
     vmMenu = [ 'Status', 'Start', 'Stop' ]
     dwnMenu = [ 'Status', 'Retry', 'Seed', 'Stop', 'Start tracker', 'Stop tracker' ]
+    partMenu = [ 'Status', 'Umount', 'Mount', 'Check', 'Repair' ]
     menuLevel = 'Main'
 
     while True:
@@ -49,6 +50,7 @@ def myMain(qcmObj, fbx, vmSelect, wifiSelect, wifiIds, freeplug, downSelect, dow
         elif menuLevel == 'Main>CPL': curMenu = cplMenu
         elif menuLevel == 'Main>Wifi': curMenu = wifiMenu
         elif menuLevel == 'Main>Downloads': curMenu = dwnMenu
+        elif menuLevel == 'Main>Storage': curMenu = partMenu
         else: curMenu = vmMenu
         userSelect = qcmObj.QCMmenu(curMenu, menuLevel)
         if menuLevel == 'Main':
@@ -61,11 +63,27 @@ def myMain(qcmObj, fbx, vmSelect, wifiSelect, wifiIds, freeplug, downSelect, dow
                 selVM = qcmObj.QCMmenu(vmSelect, menuLevel)
                 if selVM == 'Quit': menuLevel = 'Main'
                 else:
-                    if userSelect == 'Status': exTxt = printList(doIt(fbx.vm.get_config_vm,vmList.index(selVM)))
-                    elif userSelect == 'Start': exTxt = printList(doIt(fbx.vm.start,vmList.index(selVM)))
-                    else: exTxt = printList(doIt(fbx.vm.stop,vmList.index(selVM)))
+                    if userSelect == 'Status': exTxt = printList(doIt(fbx.vm.get_config_vm,vmSelIds[vmSelect.index(selVM)]))
+                    elif userSelect == 'Start': exTxt = printList(doIt(fbx.vm.start,vmSelIds[vmSelect.index(selVM)]))
+                    else: exTxt = printList(doIt(fbx.vm.stop,vmSelIds[vmSelect.index(selVM)]))
                     qcmObj.QCMdisplay(exTxt,menuLevel + '>' + selVM)
                     menuLevel = 'Main>VM'
+        elif menuLevel == 'Main>Storage':
+            if userSelect == 'Quit': menuLevel = 'Main'
+            else:
+                menuLevel = menuLevel + '>' + userSelect
+                selPart = qcmObj.QCMmenu(partSelect, menuLevel)
+                if selPart == 'Quit': menuLevel = 'Main'
+                else:
+                    if userSelect == 'Status': exTxt = printList(doIt(fbx.storage.get_partition,partSelIds[partSelect.index(selPart)]))
+                    elif userSelect == 'Check': 
+                        if partSelTypes[partSelect.index(selPart)] in set(['ext4', 'xfs', 'hfsplus' ]): exTxt = printList(doIt(fbx.storage.check_partition,partSelIds[partSelect.index(selPart)]))
+                    elif userSelect == 'Repair': 
+                        if partSelTypes[partSelect.index(selPart)] in set(['ext4', 'xfs', 'hfsplus' ]): exTxt = printList(doIt(fbx.storage.check_partition,partSelIds[partSelect.index(selPart)], True))
+                    elif userSelect == 'Mount': exTxt = printList(doIt(fbx.storage.mount_partition,partSelIds[partSelect.index(selPart)]))
+                    else: exTxt = printList(doIt(fbx.storage.umount_partition,partSelIds[partSelect.index(selPart)]))
+                    qcmObj.QCMdisplay(exTxt,menuLevel + '>' + selPart)
+                    menuLevel = 'Main>Storage'
         elif menuLevel == 'Main>Wifi':
             if userSelect == 'Quit': menuLevel = 'Main'
             else:
@@ -122,11 +140,14 @@ def myMain(qcmObj, fbx, vmSelect, wifiSelect, wifiIds, freeplug, downSelect, dow
 # Main
 fMenu = QCMenu()
 fBox = Freebox()
-fBox.open('mafreebox.freebox.fr', 443)
+fBox.open('corwin31.freeboxos.fr', 32769)
 
 vmList = []
+vmIds = []
 allVM = fBox.vm.get_config_all()
-for curVM in allVM: vmList.append(curVM['name'])
+for curVM in allVM:
+    vmList.append(curVM['name'])
+    vmIds.append(curVM['id'])
 wfList = []
 wfIds = []
 allWF = fBox.wifi.get_ap_list()
@@ -147,7 +168,16 @@ dwnlds = fBox.downloads.get_tasks()
 for curDwn in dwnlds:
     dwnTsks.append(curDwn['name'])
     dwnIds.append(curDwn['id'])
+    
+partList = []
+partIds = []
+partTypes = []
+partitions = fBox.storage.get_partitions()
+for curPart in partitions:
+    partList.append(curPart['label'])
+    partIds.append(curPart['id'])
+    partTypes.append(curPart['fstype'])
 
-fMenu.QCMstart(myMain, fBox, vmList, wfList, wfIds, mainPlug, dwnTsks, dwnIds)
+fMenu.QCMstart(myMain, fBox, vmList, vmIds, wfList, wfIds, mainPlug, dwnTsks, dwnIds, partList, partIds, partTypes)
 
 fBox.close()

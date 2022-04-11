@@ -2389,7 +2389,7 @@ def fbx_change_partition():
             print('Freebox command line tool: {0} change partition <command args...> '.format(prg))
             print('Available command args: check <id>, mount <id>, repair <id>, umount <id>')
         else:
-            try: fbx_data = fbx.storage.check_partition(cmdline[0], False)
+            try: fbx_data = fbx.storage.check_partition(cmdline[0])
             except: print('Invalid parms')
             else:
                 print(f"#Partition {cmdline[0]} checked")
@@ -4124,8 +4124,8 @@ def fbx_add():
 
 #__main__
 # Set here your freebox API parms
-fbx_dns = 'mafreebox.free.fr'
-fbx_port = 443
+fbx_dns = 'corwin31.freeboxos.fr'
+fbx_port = 32769
 # Basic checks of command line
 cmdline = sys.argv
 prg = sys.argv[0]
